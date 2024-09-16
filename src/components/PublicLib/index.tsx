@@ -29,14 +29,15 @@ const state: StateProps = {
 }
 let count = 0
 let testLoop: boolean
+let removeTouchStart: boolean
 const PublicLib = () => {
     const [data, setData] = useState<PropsData[]>()
     const carrousselRef = useRef<HTMLDivElement>(null)
     const hasMounted = useRef(false)
 
-    const [removeTouchStart, setRemoveTouchStart] = useState(false)
+    // const [removeTouchStart, setRemoveTouchStart] = useState(false)
     const [removeTouchEnd, setRemoveTouchEnd] = useState(true)
-    const [removeTouchUp, setRemoveTouchUp] = useState(true)
+    // const [removeTouchUp, setRemoveTouchUp] = useState(true)
     const [removeTouchMove, setRemoveTouchMove] = useState(true)
 
     const [carrousselItems, setCarrousselItems] = useState<NodeListOf<Element> | null>(null)
@@ -100,7 +101,7 @@ const PublicLib = () => {
         })
     }
 
-    function onMouseUp(e: React.TouchEvent<HTMLAnchorElement>) {
+    function onMouseUp() {
         state.positionSavedAfter = state.moviment
         state.positionSavedTotal = state.positionSavedAfter - state.positionSavedBefore
 
