@@ -26,24 +26,56 @@ const state: StateProps = {
 }
 let count = 0
 let testLoop: boolean
-let removeTouchStart: boolean
 
 const PublicLib = () => {
     const [data, setData] = useState<Public_lib[]>()
     const carrousselRef = useRef<HTMLDivElement>(null)
     const hasMounted = useRef(false)
 
-    // const [removeTouchStart, setRemoveTouchStart] = useState(false)
+    const [removeTouchStart, setRemoveTouchStart] = useState(false)
     const [removeTouchEnd, setRemoveTouchEnd] = useState(true)
-    // const [removeTouchUp, setRemoveTouchUp] = useState(true)
     const [removeTouchMove, setRemoveTouchMove] = useState(true)
 
     const [carrousselItems, setCarrousselItems] = useState<NodeListOf<Element> | null>(null)
     const [items, setItems] = useState<Element[]>()
     const [mainLib, setMainLib] = useState<number>()
+    const mainLibElement = useRef(null)
     const [clonedMainLibLeft, setClonedMainLibLeft] = useState<number>()
     const [clonedMainRight, setClonedMainRight] = useState<number>()
     const [elementWidth, setElementWidth] = useState<number>()
+
+    useEffect(() => {
+        const handleResizer = (entries: ResizeObserverEntry[]) => {
+            const currentWidth = entries[0].borderBoxSize[0].inlineSize
+            console.log(currentWidth)
+            if (currentWidth > 706 && carrousselItems) {
+                setRemoveTouchStart(true)
+                setRemoveTouchEnd(true)
+                setRemoveTouchMove(true)
+                carrousselItems.forEach(item => {
+                    (item as HTMLElement).style.cssText = `transform: none;`
+                })
+            } else if (carrousselItems) {
+                setElementWidth(carrousselItems[0].clientWidth)
+                setRemoveTouchStart(false)
+                setRemoveTouchEnd(false)
+                setRemoveTouchMove(false)
+            }
+        }
+
+        const resizerObserver = new ResizeObserver(handleResizer)
+
+        if (mainLibElement.current) {
+            resizerObserver.observe(mainLibElement.current)
+        }
+
+        return () => {
+            if (mainLibElement.current) {
+                resizerObserver.unobserve(mainLibElement.current)
+            }
+            resizerObserver.disconnect()
+        }
+    }, [carrousselItems])
 
     useEffect(() => {
         if (carrousselRef.current && data && !hasMounted.current) {
@@ -55,8 +87,6 @@ const PublicLib = () => {
             setMainLib(itemsInner.indexOf(carrousselRef.current.querySelector('#main') as Element))
             setClonedMainLibLeft(itemsInner.indexOf(carrousselRef.current.querySelector('#main_cloned_left') as Element))
             setClonedMainRight(itemsInner.indexOf(carrousselRef.current.querySelector('#main_cloned_right') as Element))
-            setElementWidth(carrousselInner[0].clientWidth)
-
         }
     }, [data])
 
@@ -71,6 +101,7 @@ const PublicLib = () => {
     }
 
     function touchMoves(e: React.TouchEvent<HTMLAnchorElement>, index: number) {
+        console.log('aqui')
         state.indexCurrent = index
 
         if (index === clonedMainRight || index === clonedMainLibLeft) {
@@ -132,7 +163,7 @@ const PublicLib = () => {
         carrousselItems?.forEach(item => {
             (item as HTMLElement).style.cssText = `transform: translateX(${position}px);`;
 
-            (item as HTMLElement).style.transition = 'transform 0.1s'
+            (item as HTMLElement).style.transition = 'transform 0.3s'
         })
 
         state.positionSaved = position
@@ -152,7 +183,7 @@ const PublicLib = () => {
     }
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/', {
+        fetch('http://localhost:9001', {
             method: 'GET'
         }).
             then(res => {
@@ -164,7 +195,6 @@ const PublicLib = () => {
             .then(text => {
                 try {
                     const json = JSON.parse(text);
-                    console.log(json)
                     setData(json);
                 } catch (error) {
                     const err = error as Error
@@ -177,7 +207,7 @@ const PublicLib = () => {
     }, [])
 
     return (
-        <PublicLibContainer id="public-lb" className="public-lb container">
+        <PublicLibContainer ref={mainLibElement} id="public-lb" className="public-lb container">
             <h2 className="public-lb__title">TARTARU'S COFFE SHOPEE</h2>
             <p className="public-lb__desc">
                 Em uma cidade escondida de tudo há uma cafeteria exótica na
@@ -196,7 +226,7 @@ const PublicLib = () => {
                     <CardsClone loop={loop} removeTouchEnd={removeTouchEnd} onMouseUp={onMouseUp} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main_cloned_left" quant={data?.length} />
                     {
                         data && data.map(({ date, id, link, photo, title }) => (
-                                <Card loop={loop} onMouseUp={onMouseUp} removeTouchEnd={removeTouchEnd} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main" date={date} id={id} link={link}
+                            <Card loop={loop} onMouseUp={onMouseUp} removeTouchEnd={removeTouchEnd} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main" date={date} id={id} link={link}
                                 photo={photo} title={title} key={id} />
                         ))
                     }

@@ -6,7 +6,7 @@ export const CardContainer = styled.a`
     align-items: center;
     justify-content: flex-start;
     height: min-content;
-    transition: transform 0.1s;
+    transition: transform 0.3s;
     img {
         border: 4px solid #fff;
         border-radius: 18px;

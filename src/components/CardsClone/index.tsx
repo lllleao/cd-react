@@ -19,7 +19,7 @@ const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove,
     const [newClone, setNewClone] = useState<PropsData[]>()
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/', {
+        fetch('http://localhost:9001/', {
             method: 'GET'
         }).
             then(res => {
@@ -31,7 +31,6 @@ const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove,
             .then(text => {
                 try {
                     const json = JSON.parse(text);
-                    console.log(json)
                     setData(json);
                 } catch (error) {
                     const err = error as Error
