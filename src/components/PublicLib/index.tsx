@@ -152,17 +152,24 @@ const PublicLib = () => {
     }
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/', {
+        fetch('http://localhost:9001/', {
             method: 'GET'
         }).
             then(res => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok')
                 }
-                return res.json()
+                return res.text()
             })
-            .then(res => {
-                setData(res)
+            .then(text => {
+                try {
+                    const json = JSON.parse(text);
+                    console.log(json)
+                    setData(json);
+                } catch (error) {
+                    const err = error as Error
+                    throw new Error('Failed to parse JSON: ' + err.message);
+                }
             })
             .catch(err => {
                 console.error('There was a problem with the fetch operation:', err)
