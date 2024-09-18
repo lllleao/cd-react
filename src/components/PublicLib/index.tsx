@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import Card from "../Card"
 import { Carrossel, PublicLibContainer } from "./styles"
-import { Props } from "../Card"
 import CardsClone from "../CardsClone"
-
-type PropsData = Omit<Props, 'type'>
 
 type StateProps = {
     startPoint: number
@@ -30,8 +27,9 @@ const state: StateProps = {
 let count = 0
 let testLoop: boolean
 let removeTouchStart: boolean
+
 const PublicLib = () => {
-    const [data, setData] = useState<PropsData[]>()
+    const [data, setData] = useState<Public_lib[]>()
     const carrousselRef = useRef<HTMLDivElement>(null)
     const hasMounted = useRef(false)
 
@@ -82,7 +80,6 @@ const PublicLib = () => {
             state.startPoint = e.targetTouches[0].clientX
 
             state.currentPoint = state.startPoint - state.positionSaved
-            console.log(state.currentPoint)
             state.positionSavedBefore = state.positionSaved
 
             setRemoveTouchEnd(true)
@@ -92,7 +89,6 @@ const PublicLib = () => {
 
     function onMouseMove(e: React.TouchEvent<HTMLAnchorElement>) {
         state.moviment = e.targetTouches[0].clientX - state.currentPoint
-        console.log(state.currentPoint)
         state.positionSaved = state.moviment
 
         carrousselItems?.forEach((item) => {
@@ -143,7 +139,6 @@ const PublicLib = () => {
     }
 
     const loop = (e: React.TransitionEvent<HTMLAnchorElement>) => {
-        // console.log(e)
         const element = e.currentTarget as HTMLElement
         if (testLoop) {
 
@@ -157,14 +152,21 @@ const PublicLib = () => {
     }
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/', {
+        fetch('http://localhost:9001/', {
             method: 'GET'
         }).
-            then(res => res.json())
+            then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                return res.json()
+            })
             .then(res => {
                 setData(res)
             })
-
+            .catch(err => {
+                console.error('There was a problem with the fetch operation:', err)
+            })
     }, [])
 
     return (
@@ -186,9 +188,9 @@ const PublicLib = () => {
                 <Carrossel ref={carrousselRef} className="card_container carroussel">
                     <CardsClone loop={loop} removeTouchEnd={removeTouchEnd} onMouseUp={onMouseUp} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main_cloned_left" quant={data?.length} />
                     {
-                        data?.map(({ date, id, link, photo, title }) => (
-                            <Card loop={loop} onMouseUp={onMouseUp} removeTouchEnd={removeTouchEnd} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main" key={id} date={date} id={id} link={link}
-                                photo={photo} title={title} />
+                        data && data.map(({ date, id, link, photo, title }) => (
+                                <Card loop={loop} onMouseUp={onMouseUp} removeTouchEnd={removeTouchEnd} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main" date={date} id={id} link={link}
+                                photo={photo} title={title} key={id} />
                         ))
                     }
                     <CardsClone loop={loop} removeTouchEnd={removeTouchEnd} onMouseUp={onMouseUp} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main_cloned_right" quant={3} />

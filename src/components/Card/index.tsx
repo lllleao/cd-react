@@ -1,6 +1,5 @@
 import { CardContainer } from './styles'
 import { brFunction } from '../../utils'
-import { useEffect } from 'react'
 
 export type Props = {
     link: string
@@ -20,11 +19,6 @@ export type Props = {
     loop: (event: React.TransitionEvent<HTMLAnchorElement>) => void
 }
 const Card = ({ date, link, photo, title, type, clone, id, idName, removeTouchStart, handleTouch, onMouseMove, removeTouchMove, removeTouchEnd, onMouseUp, loop }: Props) => {
-
-
-    useEffect(() => {
-
-    }, [])
 
     function emptyFunction() {
         //

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import Card, { Props } from "../Card"
+import Card from "../Card"
 
-type PropsData = Omit<Props, 'type'>
+interface PropsData extends Public_lib {}
 type PropsClone = {
     quant: number | undefined
     idName: string
@@ -17,15 +17,30 @@ type PropsClone = {
 const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove, removeTouchMove, onMouseUp, removeTouchEnd, loop }: PropsClone) => {
     const [data, setData] = useState<PropsData[]>()
     const [newClone, setNewClone] = useState<PropsData[]>()
+
     useEffect(() => {
         fetch('http://localhost:9001/', {
             method: 'GET'
-        }).then(res => res.json())
-            .then(res => setData(res))
+        }).
+            then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                return res.json()
+            })
+            .then(res => {
+                setData(res)
+            })
+            .catch(err => {
+                console.error('There was a problem with the fetch operation:', err)
+            })
+    }, [])
 
+    useEffect(() => {
         const clones = data?.slice(0, quant)
         setNewClone(clones)
-    }, [data])
+    }, [data, quant])
+
     return (
         <>
             {
