@@ -55,7 +55,7 @@ const Contact = () => {
     }, [emailUser, numEmail])
 
     async function getCsrfToken() {
-        const response = await fetch('http://localhost:9001/csrf-token', {
+        const response = await fetch('https://backend-cidadeclipse.vercel.app/csrf-token', {
             method: 'GET',
             credentials: 'include'
         })
@@ -106,7 +106,7 @@ const Contact = () => {
             const csrfToken = await getCsrfToken()
             setSuccessForm(true)
 
-            fetch('http://localhost:9001/api/send', {
+            fetch('https://backend-cidadeclipse.vercel.app/api/send', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

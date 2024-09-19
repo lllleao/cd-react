@@ -8,7 +8,7 @@ const Purchase = () => {
     const [data, setData] = useState<Books[]>()
 
     useEffect(() => {
-        fetch('http://localhost:9001/', {
+        fetch('https://backend-cidadeclipse.vercel.app/', {
             method: 'GET'
         }).
             then(res => {

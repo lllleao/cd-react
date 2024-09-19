@@ -184,7 +184,7 @@ const PublicLib = () => {
     useEffect(() => {
         if (!hasMountedFetch.current) {
             hasMountedFetch.current = true
-            fetch('http://localhost:9001/', {
+            fetch('https://backend-cidadeclipse.vercel.app/', {
                 method: 'GET'
             }).
                 then(res => {

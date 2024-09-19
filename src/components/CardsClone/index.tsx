@@ -22,7 +22,7 @@ const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove,
     useEffect(() => {
         if (!hasMounted.current) {
             hasMounted.current = true
-            fetch('http://localhost:9001/', {
+            fetch('https://backend-cidadeclipse.vercel.app/', {
                 method: 'GET'
             }).
                 then(res => {
