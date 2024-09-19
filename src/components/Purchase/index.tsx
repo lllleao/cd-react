@@ -1,11 +1,33 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { PurchaseContainer } from "./styles"
-import { useInView } from "react-intersection-observer"
 import Card from "../Card"
 
 const Purchase = () => {
-    const {ref: storeRef, inView} = useInView({threshold: 0.2})
     const [data, setData] = useState<Books[]>()
+    const [inView, setInView] = useState(false)
+    const storeRef = useRef<HTMLElement>(null)
+
+    useEffect(() => {
+        function handleObserver(entries: IntersectionObserverEntry[]) {
+
+            entries.forEach(entry => {
+                setInView(entry.isIntersecting)
+        })
+        }
+
+        const purchaseObserver = new IntersectionObserver(handleObserver)
+
+        if (storeRef.current) {
+            purchaseObserver.observe(storeRef.current)
+        }
+
+        return () => {
+            if (storeRef.current) {
+                purchaseObserver.unobserve(storeRef.current)
+            }
+            purchaseObserver.disconnect()
+        }
+    }, [])
 
     useEffect(() => {
         fetch('https://backend-cidadeclipse.vercel.app/', {
