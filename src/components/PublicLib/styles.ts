@@ -58,15 +58,11 @@ export const PublicLibContainer = styled.section`
 `
 
 export const Carrossel = styled.div`
-    &.card_container {
-        display: flex;
-        column-gap: 16px;
-        padding-bottom: 122px;
-
+        
         .cloned {
             display: none;
         }
-    }
+
     &.carroussel {
         @media (min-width: 768px) and (max-width: 1023px) {
             width: 90%;

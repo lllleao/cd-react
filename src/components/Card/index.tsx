@@ -3,22 +3,22 @@ import { brFunction } from '../../utils'
 
 export type Props = {
     link: string
-    date: string
     title: string
+    desc: string
     photo: string
     type?: boolean
-    id: number
+    id?: number
     clone?: boolean
-    idName: string
-    removeTouchStart: boolean
-    removeTouchMove: boolean
-    removeTouchEnd: boolean
-    handleTouch: (event: React.TouchEvent<HTMLAnchorElement>) => void
-    onMouseMove: (event: React.TouchEvent<HTMLAnchorElement>) => void
-    onMouseUp: (event: React.TouchEvent<HTMLAnchorElement>) => void
-    loop: (event: React.TransitionEvent<HTMLAnchorElement>) => void
+    idName?: string
+    removeTouchStart?: boolean
+    removeTouchMove?: boolean
+    removeTouchEnd?: boolean
+    handleTouch?: (event: React.TouchEvent<HTMLAnchorElement>) => void
+    onMouseMove?: (event: React.TouchEvent<HTMLAnchorElement>) => void
+    onMouseUp?: (event: React.TouchEvent<HTMLAnchorElement>) => void
+    loop?: (event: React.TransitionEvent<HTMLAnchorElement>) => void
 }
-const Card = ({ date, link, photo, title, type, clone, id, idName, removeTouchStart, handleTouch, onMouseMove, removeTouchMove, removeTouchEnd, onMouseUp, loop }: Props) => {
+const Card = ({ title, link, photo, desc, type, clone, id, idName, removeTouchStart, handleTouch, onMouseMove, removeTouchMove, removeTouchEnd, onMouseUp, loop }: Props) => {
 
     function emptyFunction() {
         //
@@ -29,19 +29,27 @@ const Card = ({ date, link, photo, title, type, clone, id, idName, removeTouchSt
             target="_blank"
             href={link}
             title={title}
-            className={`card_lib card_container__book ${type ? 'product' : ''} ${clone ? 'cloned' : ''}`}
+            className={`card_container__book ${type ? 'product' : 'card_lib'} ${clone ? 'cloned' : ''}`}
             rel="noreferrer"
             id={id == 2 ? idName : ''}
-            onTouchStart={(e) => removeTouchStart ? emptyFunction : handleTouch(e)}
-            onTouchMove={(e) => removeTouchMove ? emptyFunction : onMouseMove(e)}
-            onTouchEnd={(e) => removeTouchEnd ? emptyFunction : onMouseUp(e)}
-            onTransitionEnd={(e) => loop(e)}
+            onTouchStart={(e) => removeTouchStart ? emptyFunction : handleTouch?.(e)}
+            onTouchMove={(e) => removeTouchMove ? emptyFunction : onMouseMove?.(e)}
+            onTouchEnd={(e) => removeTouchEnd ? emptyFunction : onMouseUp?.(e)}
+            onTransitionEnd={(e) => loop?.(e)}
         >
-            <img src={photo} alt={title} />
+            <img src={photo} alt={desc} />
             <h3>
-                {brFunction(date).firstPart}
-                <br />
-                {brFunction(date).secondPart}
+                {
+                    type ? (
+                        title
+                    ) : (
+                        <>
+                            {brFunction(title).firstPart}
+                            < br />
+                            {brFunction(title).secondPart}
+                        </>
+                    )
+                }
             </h3>
         </CardContainer>
     )

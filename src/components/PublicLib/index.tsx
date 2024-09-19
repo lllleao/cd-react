@@ -28,9 +28,10 @@ let count = 0
 let testLoop: boolean
 
 const PublicLib = () => {
-    const [data, setData] = useState<Public_lib[]>()
+    const [data, setData] = useState<Books[]>()
     const carrousselRef = useRef<HTMLDivElement>(null)
     const hasMounted = useRef(false)
+    const hasMountedFetch = useRef(false)
 
     const [removeTouchStart, setRemoveTouchStart] = useState(false)
     const [removeTouchEnd, setRemoveTouchEnd] = useState(true)
@@ -47,7 +48,6 @@ const PublicLib = () => {
     useEffect(() => {
         const handleResizer = (entries: ResizeObserverEntry[]) => {
             const currentWidth = entries[0].borderBoxSize[0].inlineSize
-            console.log(currentWidth)
             if (currentWidth > 706 && carrousselItems) {
                 setRemoveTouchStart(true)
                 setRemoveTouchEnd(true)
@@ -101,7 +101,6 @@ const PublicLib = () => {
     }
 
     function touchMoves(e: React.TouchEvent<HTMLAnchorElement>, index: number) {
-        console.log('aqui')
         state.indexCurrent = index
 
         if (index === clonedMainRight || index === clonedMainLibLeft) {
@@ -183,29 +182,31 @@ const PublicLib = () => {
     }
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/', {
-            method: 'GET'
-        }).
-            then(res => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                return res.text()
-            })
-            .then(text => {
-                try {
-                    const json = JSON.parse(text);
-                    setData(json);
-                } catch (error) {
-                    const err = error as Error
-                    throw new Error('Failed to parse JSON: ' + err.message);
-                }
-            })
-            .catch(err => {
-                console.error('There was a problem with the fetch operation:', err)
-            })
+        if (!hasMountedFetch.current) {
+            hasMountedFetch.current = true
+            fetch('http://localhost:9001/', {
+                method: 'GET'
+            }).
+                then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok')
+                    }
+                    return res.text()
+                })
+                .then(text => {
+                    try {
+                        const json = JSON.parse(text)
+                        setData(json.publicBooksDate)
+                    } catch (error) {
+                        const err = error as Error
+                        throw new Error('Failed to parse JSON: ' + err.message);
+                    }
+                })
+                .catch(err => {
+                    console.error('There was a problem with the fetch operation:', err)
+                })
+        }
     }, [])
-
     return (
         <PublicLibContainer ref={mainLibElement} id="public-lb" className="public-lb container">
             <h2 className="public-lb__title">TARTARU'S COFFE SHOPEE</h2>
@@ -225,9 +226,9 @@ const PublicLib = () => {
                 <Carrossel ref={carrousselRef} className="card_container carroussel">
                     <CardsClone loop={loop} removeTouchEnd={removeTouchEnd} onMouseUp={onMouseUp} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main_cloned_left" quant={data?.length} />
                     {
-                        data && data.map(({ date, id, link, photo, title }) => (
-                            <Card loop={loop} onMouseUp={onMouseUp} removeTouchEnd={removeTouchEnd} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main" date={date} id={id} link={link}
-                                photo={photo} title={title} key={id} />
+                        data && data.map(({ title, id, link, photo, desc }) => (
+                            <Card loop={loop} onMouseUp={onMouseUp} removeTouchEnd={removeTouchEnd} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main" title={title} id={id} link={link}
+                                photo={photo} desc={desc} key={id} />
                         ))
                     }
                     <CardsClone loop={loop} removeTouchEnd={removeTouchEnd} onMouseUp={onMouseUp} onMouseMove={onMouseMove} removeTouchMove={removeTouchMove} handleTouch={handleTouch} removeTouchStart={removeTouchStart} idName="main_cloned_right" quant={3} />

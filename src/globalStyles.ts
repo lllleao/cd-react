@@ -47,6 +47,12 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
+    .card_container {
+        display: flex;
+        column-gap: 16px;
+        padding-bottom: 122px;
+    }
+
     @keyframes barOne {
         100% {
             left: 100%;
@@ -59,7 +65,7 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
-    
+
 `
 
 export default GlobalStyle

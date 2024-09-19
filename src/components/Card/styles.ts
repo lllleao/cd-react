@@ -32,4 +32,6 @@ export const CardContainer = styled.a`
             width: 100%;
         }
     }
+
+    
 `
