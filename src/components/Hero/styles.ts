@@ -55,7 +55,7 @@ export const HeroContainer = styled.section`
         h2 {
             text-align: center;
             font-size: clamp(22px, 2vw, 64px);
-            height: 76px;
+            height: 100px;
             font-family: 'Courier New OS', Courier, monospace;
         }
     }

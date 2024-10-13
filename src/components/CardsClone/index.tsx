@@ -22,7 +22,7 @@ const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove,
     useEffect(() => {
         if (!hasMounted.current) {
             hasMounted.current = true
-            fetch('https://backend-cidadeclipse.vercel.app/', {
+            fetch('http://localhost:9001/public-books', {
                 method: 'GET'
             }).
                 then(res => {
@@ -34,7 +34,7 @@ const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove,
                 .then(text => {
                     try {
                         const json = JSON.parse(text);
-                        setData(json.publicBooksDate);
+                        setData(json);
                     } catch (error) {
                         const err = error as Error
                         throw new Error('Failed to parse JSON: ' + err.message);

@@ -27,7 +27,7 @@ const Card = ({ title, link, photo, desc, type, clone, id, idName, removeTouchSt
     return (
         <CardContainer
             target="_blank"
-            href={link}
+            to={link}
             title={title}
             className={`card_container__book ${type ? 'product' : 'card_lib'} ${clone ? 'cloned' : ''}`}
             rel="noreferrer"

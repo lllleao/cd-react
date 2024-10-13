@@ -30,7 +30,7 @@ const Purchase = () => {
     }, [])
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/', {
+        fetch('http://localhost:9001/store-books', {
             method: 'GET'
         }).
             then(res => {
@@ -42,7 +42,7 @@ const Purchase = () => {
             .then(text => {
                 try {
                     const json = JSON.parse(text)
-                    setData(json.storeBooksDate)
+                    setData(json)
                 } catch (error) {
                     const err = error as Error
                     throw new Error('Failed to parse JSON: ' + err.message);
@@ -60,7 +60,7 @@ const Purchase = () => {
             <div className={`store card_container ${inView ? 'store--is-active' : ''}`}>
                 {
                     data && data.map(({desc, id, link, photo, title}) => (
-                        <Card type key={id} desc={desc} link={link} photo={photo} title={title} />
+                        <Card type key={id} desc={desc} link={`/store-books/${id}`} photo={photo} title={title} />
                     ))
                 }
             </div>

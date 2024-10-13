@@ -16,6 +16,9 @@ const MenuDesktop = () => {
                 <li className="nav__list__item__desk">
                     <a href="#contact-us">fale conosco</a>
                 </li>
+                <li className="nav__list__item__desk">
+                <a href="#contact-us"><i className="fa-solid fa-cart-shopping" /></a>
+                </li>
             </ul>
         </MenuDesktopContainer>
     )
