@@ -30,7 +30,7 @@ const Purchase = () => {
     }, [])
 
     useEffect(() => {
-        fetch('http://localhost:9001/store-books', {
+        fetch('https://backend-cidadeclipse.vercel.app/store-books', {
             method: 'GET'
         }).
             then(res => {
@@ -59,7 +59,7 @@ const Purchase = () => {
             <span>[clique na capa para comprar]</span>
             <div className={`store card_container ${inView ? 'store--is-active' : ''}`}>
                 {
-                    data && data.map(({desc, id, link, photo, title}) => (
+                    data && data.map(({desc, id, photo, title}) => (
                         <Card type key={id} desc={desc} link={`/store-books/${id}`} photo={photo} title={title} />
                     ))
                 }
