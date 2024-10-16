@@ -7,7 +7,8 @@ export const MenuDesktopContainer = styled.nav`
         font-size: 1.5em;
         &__item__desk {
             overflow: hidden;
-            a {
+            &__link {
+                cursor: pointer;
                 display: block;
                 letter-spacing: 5px;
                 padding: 8px;
@@ -27,6 +28,12 @@ export const MenuDesktopContainer = styled.nav`
                 }
                 &:hover::before {
                     top: 0;
+                }
+
+                &--is-down {
+                    &::before {
+                    top: 0;
+                }
                 }
             }
         }

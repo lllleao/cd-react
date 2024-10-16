@@ -9,9 +9,20 @@ export const BooksPurchase = styled.section`
         gap: 5rem;
     }
 
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+
+        @media (max-width: 499px) {
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+    }
+
     @media (max-width: 1029px) {
         padding: 2rem 0;
-
         height: auto;
         .book {
             flex-direction: column;
@@ -28,6 +39,26 @@ export const BookImg = styled.div`
         width: 350px;
     }
 
+    .price-container {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        .price {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            font-weight: bold;
+        }
+
+        .quant {
+            margin-left: 0.5rem;
+            background-color: transparent;
+            font-size: 1.1rem;
+
+            option {
+                background-color: #000;
+            }
+        }
+    }
+
     @media (max-width: 1029px) {
         margin: 0 auto;
 
@@ -37,7 +68,7 @@ export const BookImg = styled.div`
         }
     }
 `
-export const AboutBook = styled.div`
+export const AboutBook = styled.div<{$isSeeMore: boolean}>`
     h3 {
         font-size: clamp(1rem, 4vw, 1.7rem);
         font-weight: bold;
@@ -45,22 +76,63 @@ export const AboutBook = styled.div`
         margin-bottom: 1rem;
     }
 
-    span {
+    .sinopse-title {
         font-weight: bold;
     }
     .sinopse {
         text-align: justify;
         font-size: clamp(1.2rem, 2vw, 1.5rem);
+        line-height: 2rem;
 
+        &__view {
+
+            &__part {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1029px) {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 767px) {
+            margin-bottom: 2rem;
+
+            &__view {
+                &__all {
+                    display: none;
+                }
+                &__part {
+                    display: inline;
+
+                    .see-more {
+                        text-align: center;
+                        padding: 8px;
+                        display: ${({$isSeeMore}) => $isSeeMore ? 'block' : 'none'};
+                        cursor: pointer;
+                    }
+                }
+        }
+        }
     }
 
     .others-informations {
         margin-top: 0.5rem;
         font-size: clamp(1rem, 2vw, 1.2rem);
+        ul {
+            li {
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 425px) {
+            text-align: center;
+        }
     }
 
     .tags {
-        margin-top: 0.5rem;
+        font-weight: bold;
+        margin-top: 1rem;
         text-align: center;
         font-size: clamp(1rem, 2vw, 1.2rem);
     }

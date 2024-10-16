@@ -7,6 +7,10 @@ const Hero = () => {
     const hasMounted = useRef(false)
     const text = 'u ma cooperativa de artistas emergentes'
 
+    const handleLoad = () => {
+
+    }
+
     useEffect(() => {
         setTimeout(() => {
             if (!hasMounted.current) {
@@ -23,7 +27,7 @@ const Hero = () => {
                 }, 90)
             }
         }, 3000)
-    }, [])
+    }, [hasMounted.current])
 
     return (
         <HeroContainer id="hero" className="container">
@@ -32,7 +36,7 @@ const Hero = () => {
                 alt="simbolo enigmático e estranahmente invasivo"
             />
             <AnimationHero>
-                <h1>
+                <h1 onLoad={handleLoad}>
                     <span className="span1">Cidade</span>
                     <span className="span2">Eclipse</span>
                 </h1>

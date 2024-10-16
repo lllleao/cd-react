@@ -8,6 +8,7 @@ export type Props = {
     photo: string
     type?: boolean
     id?: number
+    price?: number
     clone?: boolean
     idName?: string
     removeTouchStart?: boolean
@@ -18,7 +19,7 @@ export type Props = {
     onMouseUp?: (event: React.TouchEvent<HTMLAnchorElement>) => void
     loop?: (event: React.TransitionEvent<HTMLAnchorElement>) => void
 }
-const Card = ({ title, link, photo, desc, type, clone, id, idName, removeTouchStart, handleTouch, onMouseMove, removeTouchMove, removeTouchEnd, onMouseUp, loop }: Props) => {
+const Card = ({ title, link, photo, desc, type, clone, id, idName, removeTouchStart, handleTouch, onMouseMove, removeTouchMove, removeTouchEnd, price, onMouseUp, loop }: Props) => {
 
     function emptyFunction() {
         //
@@ -51,6 +52,13 @@ const Card = ({ title, link, photo, desc, type, clone, id, idName, removeTouchSt
                     )
                 }
             </h3>
+            {
+                type ? (
+                    <p>R$ {price},00</p>
+                ) : (
+                    <></>
+                )
+            }
         </CardContainer>
     )
 }

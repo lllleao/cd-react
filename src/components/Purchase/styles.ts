@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const PurchaseContainer = styled.section`
-    display: none;
     padding-top: 32px;
     .purchase__title,
     span {

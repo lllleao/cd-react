@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { ContactContainer } from "./styles"
-import { authentic } from "../../utils"
+import { apiUrl, authentic } from "../../utils"
+import { handleBlur, handleFocus } from "../../utils/contactFunctions"
 
 const Contact = () => {
     const [inputErrorName, setInputErrorName] = useState(false)
@@ -55,31 +56,12 @@ const Contact = () => {
     }, [emailUser, numEmail])
 
     async function getCsrfToken() {
-        const response = await fetch('https://backend-cidadeclipse.vercel.app/csrf-token', {
+        const response = await fetch(`${apiUrl}/csrf-token`, {
             method: 'GET',
             credentials: 'include'
         })
         const data = await response.json()
         return data.csrfToken
-    }
-
-    function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
-        const currentElement = event.target.classList[1]
-
-        currentElement === 'name' && setNameEmpty(true)
-        currentElement === 'email' && setEmailEmpty(true)
-        currentElement === 'number' && setNumEmpty(true)
-    }
-
-    function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
-        const currentElement = event.target.classList[1]
-
-
-        if (event.target.value.length === 0) {
-            currentElement === 'name' && setNameEmpty(false)
-            currentElement === 'email' && setEmailEmpty(false)
-            currentElement === 'number' && setNumEmpty(false)
-        }
     }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -106,7 +88,7 @@ const Contact = () => {
             const csrfToken = await getCsrfToken()
             setSuccessForm(true)
 
-            fetch('https://backend-cidadeclipse.vercel.app/api/send', {
+            fetch(`${apiUrl}/api/send`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -168,8 +150,8 @@ const Contact = () => {
                     <div className={`text-field ${nameEmpty && 'text-field__input--empty'}`}>
                         <input
                             value={name}
-                            onBlur={e => handleBlur(e)}
-                            onFocus={e => handleFocus(e)}
+                            onBlur={e => handleBlur(e, setNameEmpty)}
+                            onFocus={e => handleFocus(e, setNameEmpty)}
                             onChange={e => nameMask(e.target.value)}
                             className={`text-field__input name input-num ${inputErrorName && 'text-field__input-is-error'}`} type="text" />
                         <label className="text-field__label">Nome</label>
@@ -177,16 +159,16 @@ const Contact = () => {
                     <div className={`text-field ${emailEmpty && 'text-field__input--empty'}`}>
                         <input
                             value={emailUser}
-                            onBlur={e => handleBlur(e)}
-                            onFocus={e => handleFocus(e)}
+                            onBlur={e => handleBlur(e, setEmailEmpty)}
+                            onFocus={e => handleFocus(e, setEmailEmpty)}
                             onChange={(e) => setEmailUser(e.currentTarget.value)} className={`text-field__input email ${inputErrorEmail && 'text-field__input-is-error'}`} type="text" />
                         <label className="text-field__label">Email</label>
                     </div>
                     <div className={`text-field ${numEmpty && 'text-field__input--empty'}`}>
                         <input
                             value={numEmail}
-                            onBlur={e => handleBlur(e)}
-                            onFocus={e => handleFocus(e)}
+                            onBlur={e => handleBlur(e, setNumEmpty)}
+                            onFocus={e => handleFocus(e, setNumEmpty)}
                             onChange={(e) => numeroMask(e.target.value)} className={`text-field__input number ${inputErrorNum && 'text-field__input-is-error'}`} type="text" maxLength={16} />
                         <label className="text-field__label">Número (opcional)</label>
                     </div>

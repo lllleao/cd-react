@@ -1,8 +1,13 @@
 import { ButtonContainer } from "./styles"
 
-const ButtonPurchase = () => {
+type Props = {
+    children: string
+    addToCart?: () => void
+}
+
+const ButtonPurchase = ({children, addToCart}: Props) => {
     return (
-        <ButtonContainer>COMPRAR</ButtonContainer>
+        <ButtonContainer onClick={addToCart}>{children}</ButtonContainer>
     )
 }
 

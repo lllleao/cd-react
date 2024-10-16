@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import Card from "../Card"
+import { apiUrl } from "../../utils"
 
 interface PropsData extends Books {}
 type PropsClone = {
@@ -22,7 +23,7 @@ const CardsClone = ({ quant, idName, removeTouchStart, handleTouch, onMouseMove,
     useEffect(() => {
         if (!hasMounted.current) {
             hasMounted.current = true
-            fetch('https://backend-cidadeclipse.vercel.app/public-books', {
+            fetch(`${apiUrl}/public-books`, {
                 method: 'GET'
             }).
                 then(res => {

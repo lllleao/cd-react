@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { PurchaseContainer } from "./styles"
 import Card from "../Card"
+import { apiUrl } from "../../utils"
 
 const Purchase = () => {
     const [data, setData] = useState<Books[]>()
@@ -30,7 +31,7 @@ const Purchase = () => {
     }, [])
 
     useEffect(() => {
-        fetch('https://backend-cidadeclipse.vercel.app/store-books', {
+        fetch(`${apiUrl}/store-books`, {
             method: 'GET'
         }).
             then(res => {
@@ -59,8 +60,8 @@ const Purchase = () => {
             <span>[clique na capa para comprar]</span>
             <div className={`store card_container ${inView ? 'store--is-active' : ''}`}>
                 {
-                    data && data.map(({desc, id, photo, title}) => (
-                        <Card type key={id} desc={desc} link={`/store-books/${id}`} photo={photo} title={title} />
+                    data && data.map(({desc, id, photo, title, price}) => (
+                        <Card type key={id} desc={desc} price={price} link={`/store-books/${id}`} photo={photo} title={title} />
                     ))
                 }
             </div>

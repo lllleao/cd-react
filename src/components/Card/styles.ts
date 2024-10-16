@@ -8,13 +8,14 @@ export const CardContainer = styled(Link)`
     justify-content: flex-start;
     height: min-content;
     transition: transform 0.3s;
+    /* flex: 1 0 250px; */
     img {
         border: 4px solid #fff;
         border-radius: 18px;
         width: 100%;
     }
 
-    h3 {
+    h3, p {
         text-align: center;
         margin-top: 8px;
         text-decoration: none;

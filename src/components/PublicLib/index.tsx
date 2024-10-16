@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import Card from "../Card"
 import { Carrossel, PublicLibContainer } from "./styles"
 import CardsClone from "../CardsClone"
+import { apiUrl } from "../../utils"
 
 type StateProps = {
     startPoint: number
@@ -184,7 +185,7 @@ const PublicLib = () => {
     useEffect(() => {
         if (!hasMountedFetch.current) {
             hasMountedFetch.current = true
-            fetch('https://backend-cidadeclipse.vercel.app/public-books', {
+            fetch(`${apiUrl}/public-books`, {
                 method: 'GET'
             }).
                 then(res => {

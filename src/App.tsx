@@ -1,17 +1,19 @@
 import { BrowserRouter } from 'react-router-dom'
 import Footer from './containers/Footer'
-import Header from './containers/Header'
 import GlobalStyle from './globalStyles'
 import Rotas from './routes'
+import { Provider } from 'react-redux'
+import store from './store'
 
 function App() {
     return (
-        <BrowserRouter>
-            <GlobalStyle />
-            <Header />
-            <Rotas />
-            <Footer />
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <GlobalStyle />
+                <Rotas />
+                <Footer />
+            </BrowserRouter>
+        </Provider>
     )
 }
 

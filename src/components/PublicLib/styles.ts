@@ -58,16 +58,17 @@ export const PublicLibContainer = styled.section`
 `
 
 export const Carrossel = styled.div`
-        
+
         .cloned {
             display: none;
         }
 
     &.carroussel {
-        @media (min-width: 768px) and (max-width: 1023px) {
+        @media (min-width: 768px) {
             width: 90%;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, minmax(250px, 0.3fr)); // qualquer coisa volta para o 1fr 1fr
+            place-content: center;
             row-gap: 3rem;
             column-gap: 3rem;
             margin: 0 auto;
