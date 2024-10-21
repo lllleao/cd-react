@@ -16,7 +16,7 @@ const Book = () => {
     const { id } = useParams()
 
     useEffect(() => {
-        fetch(`${apiUrl}/store-books/${id}`, {
+        fetch(`${apiUrl}/store/store-books/${id}`, {
             method: 'GET'
         }).then(res => res.json())
             .then(res => {
@@ -50,7 +50,6 @@ const Book = () => {
 
     const addToCart = () => {
         if (data) {
-            console.log('foi adicionado')
             dispatch(add({
                 id: data.id,
                 photo: data.photo,

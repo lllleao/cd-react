@@ -33,7 +33,7 @@ type RedDown = {
     user: boolean
 }
 
-export const handleRedDown = (textElement: string, setFunction: React.Dispatch<React.SetStateAction<RedDown>>, navigate: NavigateFunction) => {
+export const handleRedDown = (textElement: string, setFunction: React.Dispatch<React.SetStateAction<RedDown>>, navigate: NavigateFunction, loginSuccess: boolean | undefined) => {
     if (textElement === 'hero') {
         setFunction({
             hero: true,

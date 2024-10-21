@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import cartReducer from './reducers/cart'
+import loginSiginReducer from './reducers/loginSign'
 const store = configureStore({
     reducer: {
-        cart: cartReducer
+        cart: cartReducer,
+        loginSigin: loginSiginReducer
     }
 })
 

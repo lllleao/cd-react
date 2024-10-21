@@ -31,7 +31,7 @@ const Purchase = () => {
     }, [])
 
     useEffect(() => {
-        fetch(`${apiUrl}/store-books`, {
+        fetch(`${apiUrl}/store/store-books`, {
             method: 'GET'
         }).
             then(res => {

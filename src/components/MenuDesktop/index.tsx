@@ -4,6 +4,7 @@ import { handleRedDown } from '../../utils'
 import { useDispatch } from 'react-redux'
 import { open } from '../../store/reducers/cart'
 import { useNavigate } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 
 type RedDown = {
     hero: boolean
@@ -15,8 +16,10 @@ type RedDown = {
 }
 
 const MenuDesktop = () => {
+    // const { loginSuccess } = useSelector((state: RootReducer) => state.loginSigin)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const loginSuccess = localStorage.getItem('loginSuccess')
 
     const [redDown, setRedDown] = useState<RedDown>({
         hero: false,
@@ -28,7 +31,7 @@ const MenuDesktop = () => {
     })
 
     const handleClickCart = (elementName: string) => {
-        handleRedDown(elementName, setRedDown, navigate)
+        handleRedDown(elementName, setRedDown, navigate, Boolean(loginSuccess))
         if (elementName === 'cart') {
             dispatch(open())
         }
@@ -38,16 +41,16 @@ const MenuDesktop = () => {
         <MenuDesktopContainer className="container">
             <ul className="nav__list">
                 <li className="nav__list__item__desk">
-                    <a onClick={() => handleClickCart('hero')} className={`nav__list__item__desk__link ${redDown.hero ? 'nav__list__item__desk__link--is-down' : ''}`} href="#hero">home</a>
+                    <HashLink onClick={() => handleClickCart('hero')} className={`nav__list__item__desk__link ${redDown.hero ? 'nav__list__item__desk__link--is-down' : ''}`} to="/#hero">home</HashLink>
                 </li>
                 <li className="nav__list__item__desk">
-                    <a onClick={() => handleClickCart('publicLb')} className={`nav__list__item__desk__link ${redDown.publicLb ? 'nav__list__item__desk__link--is-down' : ''}`} href="#public-lb">biblioteca virtual</a>
+                    <HashLink onClick={() => handleClickCart('publicLb')} className={`nav__list__item__desk__link ${redDown.publicLb ? 'nav__list__item__desk__link--is-down' : ''}`} to="/#public-lb">biblioteca virtual</HashLink>
                 </li>
                 <li className="nav__list__item__desk">
-                    <a onClick={() => handleClickCart('purchase')} className={`nav__list__item__desk__link ${redDown.purchase ? 'nav__list__item__desk__link--is-down' : ''}`} href="#purchase">lojinha</a>
+                    <HashLink onClick={() => handleClickCart('purchase')} className={`nav__list__item__desk__link ${redDown.purchase ? 'nav__list__item__desk__link--is-down' : ''}`} to="/#purchase">lojinha</HashLink>
                 </li>
                 <li className="nav__list__item__desk">
-                    <a onClick={() => handleClickCart('contactUs')} className={`nav__list__item__desk__link ${redDown.contactUs ? 'nav__list__item__desk__link--is-down' : ''}`} href="#contact-us">fale conosco</a>
+                    <HashLink onClick={() => handleClickCart('contactUs')} className={`nav__list__item__desk__link ${redDown.contactUs ? 'nav__list__item__desk__link--is-down' : ''}`} to="/#contact-us">fale conosco</HashLink>
                 </li>
                 <li className="nav__list__item__desk">
                     <div onClick={() => handleClickCart('cart')} className={`nav__list__item__desk__link ${redDown.cart ? 'nav__list__item__desk__link--is-down' : ''}`}><i className="fa-solid fa-cart-shopping" /></div>

@@ -26,3 +26,9 @@ export const handleBlur = (
         currentElement === 'password' && setEmpty(false)
     }
 }
+
+export const nameMask = (name: string, setName: (value: React.SetStateAction<string>) => void) => {
+    let value = name
+    value = value.replace(/[^a-zA-Z\s]/g, '')
+    setName(value)
+}

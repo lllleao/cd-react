@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { ContactContainer } from "./styles"
 import { apiUrl, authentic } from "../../utils"
-import { handleBlur, handleFocus } from "../../utils/contactFunctions"
+import { handleBlur, handleFocus, nameMask } from "../../utils/contactFunctions"
 
 const Contact = () => {
     const [inputErrorName, setInputErrorName] = useState(false)
@@ -32,12 +32,6 @@ const Contact = () => {
         value = value.replace(/(\d{1})(\d{4})(\d{0,4})/, '$1 $2-$3')
 
         setNumEmail(value)
-    }
-
-    function nameMask(name: string) {
-        let value = name
-        value = value.replace(/[^a-zA-Z\s]/g, '')
-        setName(value)
     }
 
     useEffect(() => {
@@ -152,7 +146,7 @@ const Contact = () => {
                             value={name}
                             onBlur={e => handleBlur(e, setNameEmpty)}
                             onFocus={e => handleFocus(e, setNameEmpty)}
-                            onChange={e => nameMask(e.target.value)}
+                            onChange={e => nameMask(e.target.value, setName)}
                             className={`text-field__input name input-num ${inputErrorName && 'text-field__input-is-error'}`} type="text" />
                         <label className="text-field__label">Nome</label>
                     </div>
